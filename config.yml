@@ -1,0 +1,16 @@
+sso:
+    base_url: https://mysso.example.org
+    cookie:
+        name: SSO
+        domain: .example.org
+    ssl: true
+    debug: false
+google:
+    client_id: xxxxxxxx.apps.googleusercontent.com
+    client_secret: YourGoogleApiSecret
+    redirect_uri: https://mysso.example.org/oauth2callback
+    domains:
+        - example.org
+    scope:
+       - https://www.googleapis.com/auth/userinfo.email
+       - https://www.googleapis.com/auth/userinfo.profile
