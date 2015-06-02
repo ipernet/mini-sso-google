@@ -46,16 +46,16 @@ server {
 
 This article may be useful to understand what's going on here: [SSO with Nginx auth_request module][2]
 
-- Install the SSO app using on the same domain hierarchy of the service to serve.
+- Install the SSO app on the same domain hierarchy of the services to serve.
 
-It's a PHP app based on [Silex][3], please follow its [installation instructions][4] if needed then run ``composer install`` in its directory.
+The app is based on [Silex][3], if required, please follow its [installation instructions][4] first, before running a ``composer install`` in its directory to install the required dependencies.
 
-**Important**: Make the document root be ``public/`` to not expose your ``config.yml`` file.
+**Important**: Make the document root be ``public/`` in order to not expose your ``config.yml`` file.
 
 Usage
 ------------
 
-Once setup, people accessing your services covered by client authorization will have to Sign-in with Google first before beeing granted access to the service. 
+Once setup, people accessing your services covered by client authorization will have to sign-in with Google first before beeing granted access to the service. 
 
 The SSO does not replace any additional authentication layers added by your services itself but can serve as an identification service with its **API**.
 
