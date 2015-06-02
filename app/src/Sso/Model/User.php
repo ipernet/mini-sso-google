@@ -132,18 +132,19 @@ class User
 		// By default, all signed-in users are granted access
 		$access_granted	=	true;
 			
-		// Permissions set, deny all by default
+		// Permissions set
 		if(isset($permissions[$broker]))
 		{
-			// User allowed explicitly or denied implicitly?
-			if(isset($permissions[$broker]['allow']) && is_array($permissions[$broker]['allow']))
-			{
-				$access_granted	=	in_array($this->getEmail(), $permissions[$broker]['allow']);
-			}
-			else if(isset($permissions[$broker]['deny']) && is_array($permissions[$broker]['deny']))
+			// Deny > Auth, in case user is both allowed and denied.
+			if(isset($permissions[$broker]['deny']) && is_array($permissions[$broker]['deny']))
 			{
 				// No allow directive but a deny one. Is the user denied explicitly?
 				$access_granted	=	! in_array($this->getEmail(), $permissions[$broker]['deny']);
+			}
+			else if(isset($permissions[$broker]['allow']) && is_array($permissions[$broker]['allow']))
+			{
+				// User allowed explicitly or denied implicitly?
+				$access_granted	=	in_array($this->getEmail(), $permissions[$broker]['allow']);
 			}
 			else
 			{
