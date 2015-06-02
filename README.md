@@ -27,10 +27,15 @@ server {
             internal;
             
             proxy_pass https://mysso.example.org;
-            proxy_set_header Host $http_host;
+
+            proxy_pass_request_body off;
+            proxy_set_header Content-Length "";
+            proxy_set_header X-Original-URI $request_uri;
+            
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Broker-Domain $http_host;
         }
         
         error_page 401 = @error401;
@@ -59,6 +64,30 @@ Once setup, people accessing your services covered by client authorization will 
 
 The SSO does not replace any additional authentication layers added by your services itself but can serve as an identification service with its **API**.
 
+
+#Permissions
+
+Custom permissions can be added to **allow or deny** some users to access services.
+
+- Allow all, except:
+
+```yaml
+permissions:
+	serviceA.example.org:
+		deny:
+			- bad.user1@example.org
+			- bad.user2@example.org
+```
+
+- Deny all, except:
+
+```yaml
+permissions:
+	serviceA.example.org:
+		allow:
+			- nice.user1@example.org
+			- nice.user2@example.org
+```
 
 #API
 

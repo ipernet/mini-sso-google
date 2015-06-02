@@ -17,7 +17,16 @@ class Oauth
 		
 		// Already Oauthed? 
 		if($app['session']->get('user'))
-			return $app->redirect($from);
+		{
+			$broker	=	parse_url($from, PHP_URL_HOST);
+			
+			$user	=	\Sso\Model\User::withSession($app['session']->get('user'));
+			
+			if($user->hasAccess($app['conf']['permissions'], $broker))
+				return $app->redirect($from);
+			else
+				$app->abort(401, 'Your are not authorized to login to this service.');
+		}
 
 		$app['g_client']->setState(self::base64UrlEncode(json_encode(['from' => $from])));
 
@@ -60,7 +69,7 @@ class Oauth
 			if( ! $app['g_client']->getAccessToken())
 				throw new Exception('Invalid access token.');
 				
-			$me		=	new \Sso\Model\User($app['g_client']);
+			$me		=	\Sso\Model\User::withGoogleClient($app['g_client']);
 
 			if( ! $me->getId())
 				throw new \Exception('Invalid user');
@@ -84,12 +93,7 @@ class Oauth
 			}
 
 			// Save a session for further checks
-			$app['session']->set('user', [
-				'id'		=>	$me->getId(),
-				'name'		=>	$me->getName(),
-				'domain'	=>	$me->getDomain(),
-				'email'		=>	$me->getEmail(),
-			]);
+			$app['session']->set('user', $me->getSession());
 
 			return $app->redirect($state['from']);
 		}

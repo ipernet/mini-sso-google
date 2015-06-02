@@ -44,6 +44,9 @@ $app['mustache']	=	$app->share(function()
 // Conf handler
 $app['conf']	=	$app->share(function() use($conf)
 {
+	if( ! isset($conf['permissions']) || ! is_array($conf['permissions']))
+		$conf['permissions']	=	[];
+	
 	return $conf;
 });
 
