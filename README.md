@@ -71,7 +71,7 @@ Once the user has gone trough the SSO process, you can retrieve its (Google) ide
   "id": "1157561509350548898",
   "name": "John Smith",
   "domain": "example.org",
-  "email": "user@example.fr"
+  "email": "user@example.org"
 }
 ```
 
@@ -84,7 +84,7 @@ ssoCall ({
   "id": "1157561509350548898",
   "name": "John Smith",
   "domain": "example.org",
-  "email": "user@example.fr"
+  "email": "user@example.org"
 })
 ```
 
