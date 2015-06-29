@@ -30,7 +30,7 @@ class Check
 			
 			if($request->get('jsonp_callback') !== null)
 			{
-				$res	=	new JsonResponse($user);
+				$res	=	new JsonResponse($user->getApi());
 				
 				return $res->setCallback($request->get('jsonp_callback'));
 			
